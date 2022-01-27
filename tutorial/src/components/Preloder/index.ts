@@ -1,0 +1,1 @@
+export {Preloder} from './Preloder';
