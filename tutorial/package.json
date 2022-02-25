@@ -44,7 +44,7 @@
         "webpack-dev-server": "^3.11.2"
     },
     "dependencies": {
-        "@consta/uikit": "3.13.0",
+        "@consta/uikit": "3.16.0",
         "@monolithed/error-boundary-component": "0.0.3",
         "@monolithed/logger": "0.1.0",
         "@monolithed/module-federation-loader": "0.0.1",

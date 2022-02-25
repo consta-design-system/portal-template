@@ -1,18 +1,18 @@
-const {resolve} = require('path');
+const { resolve } = require('path');
 const webpack = require('webpack');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {SubresourceIntegrityPlugin} = require('webpack-subresource-integrity');
+const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const open = require('open');
 const mocker = require('mocker-api');
 
-const {name, dependencies} = require('./package.json');
+const { name, dependencies } = require('./package.json');
 const api = require('./__mocks__/api');
 
-const {container} = webpack;
-const {ModuleFederationPlugin} = container;
+const { container } = webpack;
+const { ModuleFederationPlugin } = container;
 
 const config = {
     devServer: {
@@ -45,7 +45,7 @@ const config = {
         // Открыть новую или использовать уже существующую вкладку
         // Стандратная опция так делать не умеет
         after: async () => {
-            const {host, port} = config.devServer;
+            const { host, port } = config.devServer;
 
             await open(`http://${host}:${port}`);
         }
@@ -58,7 +58,10 @@ const config = {
     mode: 'none',
 
     // Входная точка
-    entry: resolve(__dirname, 'src', 'index'),
+    entry: {
+        main: resolve(__dirname, 'src', 'index'),
+        shared: ['@consta/uikit/Button', '@consta/uikit/EventInterceptor']
+    },
 
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
@@ -77,14 +80,14 @@ const config = {
         publicPath: '/',
 
         // chunkFilename: " [name]/[id].[chunkhash].chunk.js"
-        crossOriginLoading: 'anonymous', // use-credentials
+        crossOriginLoading: 'anonymous' // use-credentials
     },
 
     experiments: {
         topLevelAwait: true
     },
 
-/*
+    /*
     optimization: {
         moduleIds: 'deterministic',
         runtimeChunk: 'single',
@@ -109,10 +112,7 @@ const config = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
@@ -163,22 +163,36 @@ const config = {
             // webpack поможет исключить дубликаты и получить доступ к общим зависимостям.
             shared: {
                 'react': {
-                    requiredVersion: dependencies.react
+                    requiredVersion: dependencies.react,
+                    eager: true
                 },
                 'react-dom': {
-                    requiredVersion: dependencies['react-dom']
+                    requiredVersion: dependencies['react-dom'],
+                    eager: true
                 },
                 'react-router-dom': {
-                    requiredVersion: dependencies['react-router-dom']
+                    requiredVersion: dependencies['react-router-dom'],
+                    eager: true
                 },
                 '@reatom/core': {
-                    requiredVersion: dependencies['@reatom/core']
+                    requiredVersion: dependencies['@reatom/core'],
+                    eager: true
                 },
                 '@reatom/react': {
-                    requiredVersion: dependencies['@reatom/react']
+                    requiredVersion: dependencies['@reatom/react'],
+                    eager: true
                 },
-                '@consta/uikit': {
-                    requiredVersion: dependencies['@consta/uikit']
+                '@consta/uikit/EventInterceptor': {
+                    requiredVersion: dependencies['@consta/uikit/EventInterceptor'],
+                    strictVersion: false,
+                    singleton: true,
+                    eager: true
+                },
+                '@consta/uikit/Button': {
+                    requiredVersion: dependencies['@consta/uikit/Button'],
+                    strictVersion: false,
+                    singleton: true,
+                    eager: true
                 }
             }
         }),

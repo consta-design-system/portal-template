@@ -46,7 +46,7 @@
         "webpack-subresource-integrity": "5.0.0"
     },
     "dependencies": {
-        "@consta/uikit": "3.14.0",
+        "@consta/uikit": "3.16.0",
         "@reatom/core": "1.1.5",
         "@reatom/react": "1.2.0",
         "react": "17.0.1",

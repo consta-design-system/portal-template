@@ -1,18 +1,18 @@
-const {resolve} = require('path');
+const { resolve } = require('path');
 const webpack = require('webpack');
 
 const WebpackAssetsManifest = require('webpack-assets-manifest');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {SubresourceIntegrityPlugin} = require('webpack-subresource-integrity');
+const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const open = require('open');
 const mocker = require('mocker-api');
 
-const {name, dependencies} = require('./package.json');
+const { name, dependencies } = require('./package.json');
 const api = require('./__mocks__/api');
 
-const {container} = webpack;
-const {ModuleFederationPlugin} = container;
+const { container } = webpack;
+const { ModuleFederationPlugin } = container;
 
 const config = {
     devServer: {
@@ -44,7 +44,7 @@ const config = {
 
         // Открыть новую или использовать уже существующую вкладку
         after: async () => {
-            const {host, port} = config.devServer;
+            const { host, port } = config.devServer;
 
             await open(`http://${host}:${port}`);
         }
@@ -75,7 +75,7 @@ const config = {
         publicPath: 'auto',
 
         // chunkFilename: "[name]/[id].[chunkhash].chunk.js"
-        crossOriginLoading: 'anonymous', // use-credentials
+        crossOriginLoading: 'anonymous' // use-credentials
     },
 
     experiments: {
@@ -107,10 +107,7 @@ const config = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
@@ -144,8 +141,8 @@ const config = {
             filename: '[name].[contenthash].js',
 
             library: {
-              name: name,
-              type: 'global'
+                name: name,
+                type: 'global'
             },
 
             // Указывайте здесь список зависимостей, которые пересекаются с родительским контейнером.
@@ -166,9 +163,18 @@ const config = {
                 '@reatom/react': {
                     requiredVersion: dependencies['@reatom/react']
                 },
-                '@consta/uikit': {
-                    requiredVersion: dependencies['@consta/uikit']
+                '@consta/uikit/EventInterceptor': {
+                    requiredVersion: dependencies['@consta/uikit/EventInterceptor'],
+                    strictVersion: false
+                    // singleton: true,
+                    // import: false
                 },
+                '@consta/uikit/Button': {
+                    requiredVersion: dependencies['@consta/uikit/Button'],
+                    strictVersion: false
+                    // singleton: true,
+                    // import: false
+                }
             },
             exposes: {
                 './Video': './src/modules/Video'

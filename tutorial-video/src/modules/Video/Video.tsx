@@ -1,23 +1,18 @@
-import React, {
-    FunctionComponent,
-    useEffect
-} from 'react';
+import React, { FunctionComponent, useEffect, useContext } from 'react';
 
-import {
-    Route,
-    useRouteMatch,
-    useHistory,
-    useLocation
-} from 'react-router-dom';
+import { Route, useRouteMatch, useHistory, useLocation } from 'react-router-dom';
 
-import {Content} from './Content';
-import {Tabs} from './Tabs';
-import {items} from './data';
+import { Content } from './Content';
+import { Tabs } from './Tabs';
+import { items } from './data';
+
+import { Button } from '@consta/uikit/Button';
+import { EventInterceptorContext } from '@consta/uikit/EventInterceptor';
 
 type Props = JSX.IntrinsicElements['section'];
 
 const Video: FunctionComponent<Props> = (props) => {
-    const {url} = useRouteMatch();
+    const { url } = useRouteMatch();
     const history = useHistory();
     const location = useLocation();
 
@@ -50,14 +45,19 @@ const Video: FunctionComponent<Props> = (props) => {
         }
     }, [location]);
 
+    const context = useContext(EventInterceptorContext);
+
+    console.log(context);
+
     return (
         <section {...props}>
             <Route path={`${rootPath}:videoId`}>
                 <Tabs />
                 <Content />
             </Route>
+            <Button label='Кнопка для тестирования EventInterceptor' />
         </section>
     );
 };
 
-export {Video};
+export { Video };
