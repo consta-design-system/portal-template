@@ -1,15 +1,7 @@
 import React, {FunctionComponent} from 'react';
-import {Link} from 'react-router-dom';
 
-import {
-    Header,
-    HeaderModule,
-    HeaderMenu,
-    HeaderLogin,
-    HeaderLogo
-} from '@consta/uikit/Header';
+import { Header } from '@consta/header/Header';
 
-import {Routes} from '../../routes';
 import {Logo} from './Logo';
 import {useMenuItems} from './useMenuItems';
 
@@ -20,31 +12,15 @@ const PortalMenu: FunctionComponent<Props> = () => {
 
     return (
         <Header
-            leftSide={
-                <>
-                    <HeaderModule>
-                        <HeaderLogo>
-                            <Link to={Routes.HOME}>
-                                <Logo />
-                            </Link>
-                        </HeaderLogo>
-                    </HeaderModule>
-
-                    <HeaderModule indent="l">
-                        <HeaderMenu items={items} />
-                    </HeaderModule>
-                </>
-            }
-            rightSide={
-                <HeaderModule>
-                    <HeaderLogin
-                        isLogged={true}
-                        personName="Александр Абашкин"
-                        personInfo="ПАО «Газпромнефть»"
-                        personStatus="available"
-                    />
-                </HeaderModule>
-            }
+            logo={<Logo />}
+            userLogined={true}
+            userName="Александр Абашкин"
+            userInfo="ПАО «Газпромнефть»"
+            loginButtonLabel="Войти"
+            getMenuItemLabel={(item) => item.label}
+            getMenuItemHref={(item) => item.href}
+            getMenuItemActive={(item) => item.active}
+            menu={items}
         />
     );
 };
