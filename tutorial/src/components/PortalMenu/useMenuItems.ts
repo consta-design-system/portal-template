@@ -1,3 +1,4 @@
+import {Item} from '@consta/uikit/__internal__/src/components/Header/Menu/HeaderMenu';
 import {useHistory, useLocation} from 'react-router-dom';
 import {Routes} from '../../routes';
 
@@ -6,14 +7,9 @@ enum Menu {
     VIDEO = 'Динамический модуль'
 }
 
-type Item = {
-    label: string;
-    href: string;
-    active?: boolean;
-    onClick?: React.EventHandler<React.MouseEvent>;
-};
+type Items = Array<Item & Required<{href: string}>>;
 
-const items: Item[] = [
+const items: Items = [
     {
         label: Menu.ABOUT,
         href: Routes.ABOUT,

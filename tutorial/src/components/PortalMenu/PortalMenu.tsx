@@ -17,9 +17,9 @@ const PortalMenu: FunctionComponent<Props> = () => {
             userName="Александр Абашкин"
             userInfo="ПАО «Газпромнефть»"
             loginButtonLabel="Войти"
-            getMenuItemLabel={(item) => item.label}
-            getMenuItemHref={(item) => item.href}
-            getMenuItemActive={(item) => item.active}
+            getMenuItemLabel={({label}) => `${label}`}
+            getMenuItemHref={({href}) => href}
+            getMenuItemActive={({active}) => active}
             menu={items}
         />
     );
